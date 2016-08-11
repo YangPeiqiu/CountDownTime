@@ -35,17 +35,18 @@ NSString *const kCollectionViewIden = @"kCollectionViewIden";
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    // collectionView
     [self.view addSubview:self.collectionView];
-    
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(@0);
-        make.top.mas_equalTo(@64);
+        make.left.bottom.right.top.equalTo(@0);
     }];
-    
+    // 增加刷新
     [self.collectionView addSubview:self.refreshControl];
-    
+    // 开始计时
     [self makeShowCountDownTime];
 }
+
 
 //- (void)viewWillAppear:(BOOL)animated {
 //    [super viewWillAppear:animated];
