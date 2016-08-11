@@ -38,7 +38,7 @@
     for (CountDownSendValueModel *model in _array.reverseObjectEnumerator) {
         // 获取我们指定的倒计时时间
         timeout = model.lastTime;
-        NSLog(@"lastTime === %lu",timeout);
+//        NSLog(@"lastTime === %lu",timeout);
         // 真正开始算时间
         NSInteger days = (int)(timeout/(3600*24));
         NSInteger hours = (int)((timeout-days*24*3600)/3600);
