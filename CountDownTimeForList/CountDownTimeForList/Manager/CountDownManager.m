@@ -9,12 +9,15 @@
 #import "CountDownManager.h"
 #import "CountDownShowModel.h"
 #import "CountDownSendValueModel.h"
+#import "CountDownCollectionViewCell.h"
 
 @implementation CountDownManager {
     
     int _overTimeCount; // 去掉的次数
     NSUInteger _countOfIndex; // 总的次数
     NSMutableArray<CountDownSendValueModel *> *_array;
+    CountDownCollectionViewCell *_countDownCell;
+    
 }
 
 - (void)setModelArray:(NSMutableArray<CountDownSendValueModel *> *)modelArray {
@@ -39,6 +42,7 @@
         // 获取我们指定的倒计时时间
         timeout = model.lastTime;
 //        NSLog(@"lastTime === %lu",timeout);
+        _countDownCell = (CountDownCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:model.indexPath];
         // 真正开始算时间
         NSInteger days = (int)(timeout/(3600*24));
         NSInteger hours = (int)((timeout-days*24*3600)/3600);
@@ -61,16 +65,14 @@
             countDownModel.second = [NSString stringWithFormat:@"%ld",second];
         }
         
-        if (self.getTheTimeBlock) {
-            self.getTheTimeBlock(countDownModel, model.indexPath);
-        }
+        _countDownCell.countDownModel = countDownModel;
       
         if (timeout == 0) {
             countDownModel.hour = @"00";
             countDownModel.minute = @"00";
             countDownModel.second = @"00";
             if (self.getTheTimeBlock) {
-                self.getTheTimeBlock(nil,model.indexPath);
+                self.getTheTimeBlock(model.indexPath);
             }
             _overTimeCount++;
             // 删除这个已经计时结束的Model，并加1

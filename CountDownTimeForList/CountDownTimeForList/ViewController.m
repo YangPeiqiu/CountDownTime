@@ -80,7 +80,7 @@ NSString *const kCollectionViewIden = @"kCollectionViewIden";
     NSMutableArray  * modelArray = [NSMutableArray array];
     [self.indexArray removeAllObjects];
     self.indexArray = [NSMutableArray arrayWithArray:@[[NSIndexPath indexPathForRow:0 inSection:0],[NSIndexPath indexPathForRow:1 inSection:0]]];
-    NSArray *timeArray = @[@"5",@"86200"];
+    NSArray *timeArray = @[@"5000",@"86200"];
     for (int i = 0; i < 2; i++){
         CountDownSendValueModel *model = [[CountDownSendValueModel alloc] init];
         model.indexPath = self.indexArray[i];
@@ -116,7 +116,6 @@ NSString *const kCollectionViewIden = @"kCollectionViewIden";
             cell.isHaveCountDownTime = YES;
         }
     }
-    cell.countDownModel = self.countDownShowModel;
     return cell;
 }
 
@@ -161,12 +160,13 @@ NSString *const kCollectionViewIden = @"kCollectionViewIden";
 - (CountDownManager *)countDownManager {
     if (!_countDownManager) {
          _countDownManager = [[CountDownManager alloc] init];
+        _countDownManager.collectionView = self.collectionView;
         __weak typeof(self) weakSelf = self;
-        _countDownManager.getTheTimeBlock = ^(CountDownShowModel *model, NSIndexPath *indexPath) {
+        _countDownManager.getTheTimeBlock = ^(NSIndexPath *indexPath) {
             __strong typeof (self) strongSelf = weakSelf;
-            if (!model) [strongSelf.indexArray removeObject:indexPath];
-            strongSelf.countDownShowModel = model;
+            [strongSelf.indexArray removeObject:indexPath];
             [strongSelf.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+
         };
     }
     return _countDownManager;
