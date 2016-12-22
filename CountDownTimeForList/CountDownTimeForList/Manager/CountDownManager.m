@@ -77,6 +77,7 @@
             _overTimeCount++;
             // 删除这个已经计时结束的Model，并加1
             [_array removeObject:model];
+            continue;
         }
         // 当所有结束的时候，将_time 清空
         if (_overTimeCount == _countOfIndex) {
